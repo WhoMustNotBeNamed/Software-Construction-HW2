@@ -1,5 +1,8 @@
 package org.hse.software.construction.HW2.view;
 
+import org.hse.software.construction.HW2.model.Menu;
+import org.hse.software.construction.HW2.model.Order;
+
 public interface View {
     void showRegistrationForm();
 
@@ -9,9 +12,9 @@ public interface View {
 
     void showMenu();
 
-    void showMenuItems();
+    void showMenuItems(Menu menu);
 
-    void showOrderItems();
+    void showOrderItems(Order order);
 
     void showOrderSuccess();
 

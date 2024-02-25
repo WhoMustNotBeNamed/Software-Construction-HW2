@@ -1,5 +1,6 @@
 package org.hse.software.construction.HW2.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,11 +8,17 @@ import lombok.Setter;
 import java.util.ArrayList;
 
 @Data
-//@Getter
 @Setter
 public class Menu {
-    @Getter
-    private static ArrayList<Dish> dishes;
+    @JsonSerialize
+    public ArrayList<Dish> dishes = new ArrayList<>();
+
+    public ArrayList<Dish> getDishes() {
+        if (dishes == null) {
+            dishes = new ArrayList<>();
+        }
+        return dishes;
+    }
 
     public void addDish(Dish dish) {
         if (dishes == null) {

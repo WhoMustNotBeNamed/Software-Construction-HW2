@@ -1,0 +1,1 @@
+{"id":1,"dishes":[{"name":"Burger","price":100,"timeToCook":10,"preparationDifficulty":1,"availableQuantity":10},{"name":"Pizza","price":200,"timeToCook":20,"preparationDifficulty":2,"availableQuantity":5}],"totalPrice":300,"totalCookingTime":30,"status":"NEW"}

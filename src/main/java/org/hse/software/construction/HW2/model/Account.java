@@ -1,7 +1,7 @@
 package org.hse.software.construction.HW2.model;
 
-import lombok.Builder;
-import lombok.Data;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.*;
 import org.hse.software.construction.HW2.view.ConsoleView;
 import org.hse.software.construction.HW2.view.View;
 
@@ -12,13 +12,18 @@ import java.util.ArrayList;
 
 @Data
 @Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Account {
-    private ArrayList<User> users;
+    @JsonSerialize
+    public ArrayList<User> users = new ArrayList<>();
+
     @Builder.Default
-    private View view = new ConsoleView();
+    private static View view = new ConsoleView();
 
     public void addUser(User user) {
-        user.setPassword(hashPassword(user.getPassword()));
         users.add(user);
     }
 
@@ -26,7 +31,7 @@ public class Account {
         users.remove(user);
     }
 
-    private String hashPassword(String password) {
+    private static String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] hash = md.digest(password.getBytes(StandardCharsets.UTF_8));
@@ -67,7 +72,7 @@ public class Account {
 
         User user = User.builder()
                 .username(username)
-                .password(password)
+                .password(hashPassword(password))
                 .role(role)
                 .build();
         addUser(user);

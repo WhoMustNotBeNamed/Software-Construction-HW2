@@ -12,6 +12,7 @@ public class ConsoleView implements View {
         System.out.println(ConsoleColors.ANSI_BLUE + "Меню регистрации:" + ConsoleColors.ANSI_RESET);
         System.out.println("1. Войти:");
         System.out.println("2. Зарегистрироваться:");
+        System.out.println("3. Выйти");
     }
 
     @Override
@@ -37,21 +38,21 @@ public class ConsoleView implements View {
     }
 
     @Override
-    public void showMenuItems() {
+    public void showMenuItems(Menu menu) {
         System.out.println(ConsoleColors.ANSI_BLUE + "Меню:" + ConsoleColors.ANSI_RESET);
-        for (Dish dish : Menu.getDishes()) {
+        for (Dish dish : menu.getDishes()) {
             System.out.printf("%-20s Цена: %-5d руб.  -  Доступное количество порций: %d шт.%n",
                     dish.getName(), dish.getPrice(), dish.getAvailableQuantity());
         }
     }
 
     @Override
-    public void showOrderItems() {
+    public void showOrderItems(Order order) {
         System.out.println(ConsoleColors.ANSI_BLUE + "Заказ:" + ConsoleColors.ANSI_RESET);
-        for (Dish dish : Order.getDishes()) {
+        for (Dish dish : order.getDishes()) {
             System.out.printf("%-20s Цена: %-4d руб. %n", dish.getName(), dish.getPrice());
         }
-        System.out.printf("%sИтого: %23d  руб.%s %n", ConsoleColors.ANSI_ORANGE, Order.getTotalPrice(), ConsoleColors.ANSI_RESET);
+        System.out.printf("%sИтого: %23d  руб.%s %n", ConsoleColors.ANSI_ORANGE, order.getTotalPrice(), ConsoleColors.ANSI_RESET);
     }
 
     @Override

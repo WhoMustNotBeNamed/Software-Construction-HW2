@@ -1,10 +1,11 @@
 package org.hse.software.construction.HW2;
 
-import org.hse.software.construction.HW2.model.Dish;
-import org.hse.software.construction.HW2.model.Order;
-import org.hse.software.construction.HW2.repository.OrderMemento;
+import org.hse.software.construction.HW2.controller.Controller;
+import org.hse.software.construction.HW2.model.*;
+import org.hse.software.construction.HW2.repository.MenuRepository;
+import org.hse.software.construction.HW2.repository.AccountRepository;
+import org.hse.software.construction.HW2.repository.OrderRepository;
 import org.hse.software.construction.HW2.view.ConsoleView;
-import org.hse.software.construction.HW2.model.OrderStatus;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
@@ -12,40 +13,20 @@ public class Hw2Application {
 
 	public static void main(String[] args) {
 
-		ConsoleView registrationView = new ConsoleView();
-
-		Order order = new Order(1, OrderStatus.NEW);
-		order.addDish(Dish.builder()
-				.name("Burger")
-				.price(100)
-				.timeToCook(10)
-				.preparationDifficulty(1)
-				.availableQuantity(10)
-				.build());
-		order.addDish(Dish.builder()
-				.name("Pizza")
-				.price(200)
-				.timeToCook(20)
-				.preparationDifficulty(2)
-				.availableQuantity(5)
-				.build());
-		order.addDish(Dish.builder()
-				.name("Pizza")
-				.price(200)
-				.timeToCook(20)
-				.preparationDifficulty(2)
-				.availableQuantity(5)
-				.build());
-
-		registrationView.showOrderItems();
-
-//		OrderMemento memento = new OrderMemento(order,);
-//		memento.saveToJson();
+//		ConsoleView registrationView = new ConsoleView();
 //
-//		Order restoredOrder = memento.restoreFromJson();
+//		Order order = new Order();
+//		OrderRepository orderRepository = new OrderRepository();
+//		order = orderRepository.restoreMenu("order.json");
 //
-//		if (restoredOrder != null) {
-//			registrationView.showOrderItems();
-//		}
+//		Menu menu = new Menu();
+//		MenuRepository menuRepository = new MenuRepository();
+//		menu = menuRepository.restoreMenu("menu.json");
+//
+//		Account account = new Account();
+//		AccountRepository userRepository = new AccountRepository();
+//		account = userRepository.restoreUser("users.json");
+
+		Controller controller = new Controller();
 	}
 }

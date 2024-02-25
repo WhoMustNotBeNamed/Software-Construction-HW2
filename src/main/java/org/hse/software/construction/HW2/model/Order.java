@@ -1,26 +1,24 @@
 package org.hse.software.construction.HW2.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import org.hse.software.construction.HW2.repository.OrderMemento;
+import lombok.*;
 
 import java.util.ArrayList;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order {
     @Getter @Setter
-    private int id;
-    @Getter
-    private static ArrayList<Dish> dishes;
-    @Setter
-    private static int totalPrice;
-    @Setter
-    private static int totalCookingTime;
+    public int id;
     @Getter @Setter
-    private OrderStatus status;
+    private ArrayList<Dish> dishes;
+    @Getter @Setter
+    private int totalPrice;
+    @Getter @Setter
+    private int totalCookingTime;
+    @Getter @Setter
+    public OrderStatus status;
 
     public Order(int id, OrderStatus status) {
         this.id = id;
@@ -41,7 +39,7 @@ public class Order {
         dishes.remove(dish);
     }
 
-    public static int getTotalPrice() {
+    public int getTotalPrice() {
         for (Dish dish : dishes) {
             totalPrice += dish.getPrice();
         }
@@ -52,12 +50,10 @@ public class Order {
         this.status = status;
     }
 
-    public static int getTotalCookingTime() {
+    public int getTotalCookingTime() {
         for (Dish dish : dishes) {
             totalCookingTime += dish.getTimeToCook();
         }
         return totalCookingTime;
     }
-
-
 }
