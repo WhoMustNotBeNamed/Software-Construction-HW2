@@ -13,22 +13,26 @@ import static org.hse.software.construction.HW2.model.UserRole.VISITOR;
 
 public class Controller {
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    private Handler adminHandler = new AdminHandler();
-    private Handler visitorHandler = new VisitorHandler();
+    private Handler adminMenuHandler = new AdminMenuHandler();
+    private Handler visitorMenuHandler = new VisitorMenuHandler();
 
     public Controller() {
         // Установка цепочки обработчиков
-        adminHandler.setNext(visitorHandler);
+        adminMenuHandler.setNext(visitorMenuHandler);
 
         // Инициализация представления
         ConsoleView view = new ConsoleView();
         Repository repository = new Repository();
         Snapshot snapshot = repository.restoreSnapshot();
+        User user = null;
 
         // Восстановление состояния системы
         Menu menu = snapshot.getMenu();
         Account account = snapshot.getAccount();
-        Order order = snapshot.getOrder();
+        //Order order = snapshot.getOrder();
+        MoneyStorage moneyStorage = snapshot.getMoneyStorage();
+        ReviewService reviewService = snapshot.getReviewService();
+        //ReviewService reviewService = new ReviewService();
 
         int choice = 0;
 
@@ -43,16 +47,21 @@ public class Controller {
                 switch (choice) {
                     case 1:
                         // Регистрация и вход пользователя в систему
-                        User user = registration();
-                        account.login(user.getUsername(), user.getPassword());
-                        handleUser(user);
+                        user = registration();
+                        if(!account.login(user.getUsername(), user.getPassword())) {
+                            break;
+                        }
+                        handleUser(account.getUser(user.getUsername()), menu, menu.getOrderByID(user.getUsername()), moneyStorage, reviewService);
+
+                        repository.saveSnapshot(new Snapshot(menu, account, moneyStorage, reviewService));
                         break;
                     case 2:
                         // Регистрация пользователя
-                        User newUser = registration();
-                        account.signUp(newUser.getUsername(), newUser.getPassword(),
-                                newUser.getUsername().equals("admin") ? ADMIN : VISITOR);
-                        handleUser(newUser);
+                        user = registration();
+                        account.signUp(user.getUsername(), user.getPassword(), user.getUsername().equals("admin") ? ADMIN : VISITOR);
+                        handleUser(account.getUser(user.getUsername()), menu, menu.getOrderByID(user.getUsername()), moneyStorage, reviewService);
+
+                        repository.saveSnapshot(new Snapshot(menu, account, moneyStorage, reviewService));
                         break;
                     case 3:
                         break;
@@ -83,7 +92,7 @@ public class Controller {
     }
 
     // Метод обработки пользователя
-    private void handleUser(User user) {
-        adminHandler.handle(user);
+    private void handleUser(User user, Menu menu, Order order, MoneyStorage moneyStorage, ReviewService reviewService) {
+        adminMenuHandler.handle(user, menu, order, moneyStorage, reviewService);
     }
 }

@@ -9,8 +9,9 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Order {
+    //TODO: добавить поле для хранения имени пользователя, чтобы возвращать его заказ по его имени вместо id
     @Getter @Setter
-    public int id;
+    public String id;
     @Getter @Setter
     private ArrayList<Dish> dishes;
     @Getter @Setter
@@ -20,7 +21,7 @@ public class Order {
     @Getter @Setter
     public OrderStatus status;
 
-    public Order(int id, OrderStatus status) {
+    public Order(String id, OrderStatus status) {
         this.id = id;
         this.status = status;
     }
@@ -40,6 +41,7 @@ public class Order {
     }
 
     public int getTotalPrice() {
+        totalPrice = 0;
         for (Dish dish : dishes) {
             totalPrice += dish.getPrice();
         }
@@ -55,5 +57,14 @@ public class Order {
             totalCookingTime += dish.getTimeToCook();
         }
         return totalCookingTime;
+    }
+
+    public Order clone() {
+        Order clonedOrder = new Order();
+        clonedOrder.setId(this.id);
+        clonedOrder.setDishes(new ArrayList<>(this.dishes));
+        clonedOrder.setStatus(this.status);
+        // Клонируйте все остальные поля по аналогии
+        return clonedOrder;
     }
 }

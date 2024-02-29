@@ -1,7 +1,9 @@
 package org.hse.software.construction.HW2.view;
 
 import org.hse.software.construction.HW2.model.Menu;
+import org.hse.software.construction.HW2.model.MoneyStorage;
 import org.hse.software.construction.HW2.model.Order;
+import org.hse.software.construction.HW2.model.ReviewService;
 
 public interface View {
     void showRegistrationForm();
@@ -14,6 +16,12 @@ public interface View {
 
     void showMenuItems(Menu menu);
 
+    void showMenuItemsAdmin(Menu menu);
+
+    public void showAdminMenu();
+
+    public void showVisitorMenu();
+
     void showOrderItems(Order order);
 
     void showOrderSuccess();
@@ -21,4 +29,10 @@ public interface View {
     void showOrderCancel();
 
     void showUpdateMenu();
+
+    void showPaymentMenu();
+
+    void showStatistics(ReviewService reviewService);
+
+    void showMoneyStorageMenu(MoneyStorage moneyStorage);
 }

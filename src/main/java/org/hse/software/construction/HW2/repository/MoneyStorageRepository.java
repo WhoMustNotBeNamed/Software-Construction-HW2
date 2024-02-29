@@ -2,26 +2,25 @@ package org.hse.software.construction.HW2.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
-import org.hse.software.construction.HW2.model.Menu;
+import org.hse.software.construction.HW2.model.MoneyStorage;
 
 @Data
-public class MenuRepository {
+public class MoneyStorageRepository {
     private ObjectMapper objectMapper = new ObjectMapper();
-    public void saveMenu(Menu menu, String path) {
+    public void saveCashRegister(MoneyStorage moneyStorage, String path) {
         try {
-            if (menu == null) {
+            if (moneyStorage == null) {
                 return;
             }
-            objectMapper.writeValue(new java.io.File(path), menu);
+            objectMapper.writeValue(new java.io.File(path), moneyStorage);
         } catch (java.io.IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    public Menu restoreMenu(String path) {
+    public MoneyStorage restoreCashRegister(String path) {
         try {
-            return objectMapper.readValue(new java.io.File(path), Menu.class);
+            return objectMapper.readValue(new java.io.File(path), MoneyStorage.class);
         } catch (java.io.IOException e) {
             e.printStackTrace();
             return null;

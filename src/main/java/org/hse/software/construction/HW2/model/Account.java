@@ -17,7 +17,7 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {
-    @JsonSerialize
+    @Getter @JsonSerialize
     public ArrayList<User> users = new ArrayList<>();
 
     @Builder.Default
@@ -49,14 +49,15 @@ public class Account {
         }
     }
 
-    public void login(String username, String password) {
+    public boolean login(String username, String password) {
         for (User user : users) {
             if (user.getUsername().equals(username) && user.getPassword().equals(hashPassword(password))) {
                 System.out.println("Logged in as " + user.getUsername());
-                return;
+                return true;
             }
         }
         view.showErrorMessage("Invalid username or password");
+        return false;
     }
 
     public void logout() {
@@ -77,5 +78,14 @@ public class Account {
                 .build();
         addUser(user);
         System.out.println("Signed up as " + user.getUsername());
+    }
+
+    public User getUser(String username) {
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null;
     }
 }

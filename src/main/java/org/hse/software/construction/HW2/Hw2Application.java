@@ -1,9 +1,11 @@
 package org.hse.software.construction.HW2;
 
 import org.hse.software.construction.HW2.controller.Controller;
+// TODO: убрать, когда буду уверен, что репозитории работают
 import org.hse.software.construction.HW2.model.*;
 import org.hse.software.construction.HW2.repository.MenuRepository;
 import org.hse.software.construction.HW2.repository.AccountRepository;
+import org.hse.software.construction.HW2.repository.MoneyStorageRepository;
 import org.hse.software.construction.HW2.repository.OrderRepository;
 import org.hse.software.construction.HW2.view.ConsoleView;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +15,7 @@ public class Hw2Application {
 
 	public static void main(String[] args) {
 
+		// TODO: убрать, когда буду уверен, что репозитории работают
 //		ConsoleView registrationView = new ConsoleView();
 //
 //		Order order = new Order();
@@ -27,6 +30,9 @@ public class Hw2Application {
 //		AccountRepository userRepository = new AccountRepository();
 //		account = userRepository.restoreUser("users.json");
 
+//		MoneyStorage moneyStorage = new MoneyStorage();
+//		MoneyStorageRepository moneyStorageRepository = new MoneyStorageRepository();
+//		moneyStorageRepository.saveCashRegister(moneyStorage, "moneyStorage.json");
 		Controller controller = new Controller();
 	}
 }

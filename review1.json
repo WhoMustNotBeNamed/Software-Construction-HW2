@@ -1,0 +1,1 @@
+{"reviews":[{"review":"Nice","rating":5,"author":"Alex","order":{"id":"Alex","dishes":[{"name":"Burger","price":100,"timeToCook":10,"availableQuantity":10}],"totalPrice":100,"totalCookingTime":10,"status":"PAYED"}}],"mostPopularDish":{"name":"Burger","price":100,"timeToCook":10,"availableQuantity":10},"averageRating":5.0}

@@ -1,17 +1,18 @@
 package org.hse.software.construction.HW2.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 
 @Data
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Menu {
     @JsonSerialize
     public ArrayList<Dish> dishes = new ArrayList<>();
+    private ArrayList<Order> orders = new ArrayList<>();
 
     public ArrayList<Dish> getDishes() {
         if (dishes == null) {
@@ -27,7 +28,8 @@ public class Menu {
         dishes.add(dish);
     }
 
-    public void removeDish(Dish dish) {
+    public void removeDish(String dishName) {
+        Dish dish = getDishByName(dishName);
         dishes.remove(dish);
     }
 
@@ -47,6 +49,29 @@ public class Menu {
                 return;
             }
         }
+    }
+
+    public void addOrder(Order order) {
+        if (orders == null) {
+            orders = new ArrayList<>();
+        }
+        orders.add(order);
+    }
+
+    public void removeOrder(Order order) {
+        if (orders == null) {
+            return;
+        }
+        orders.remove(order);
+    }
+
+    public Order getOrderByID(String id) {
+        for (Order order : orders) {
+            if (order.getId().equals(id)) {
+                return order;
+            }
+        }
+        return new Order(id, OrderStatus.NEW);
     }
 
     @Override

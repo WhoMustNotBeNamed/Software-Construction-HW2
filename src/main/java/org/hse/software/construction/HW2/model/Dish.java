@@ -1,18 +1,16 @@
 package org.hse.software.construction.HW2.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class Dish {
     private String name;
     private int price;
     private int timeToCook;
-    private int preparationDifficulty;
+    //private int preparationDifficulty;
     private int availableQuantity;
 }
