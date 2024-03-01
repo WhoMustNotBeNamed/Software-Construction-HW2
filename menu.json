@@ -1,1 +1,1 @@
-{"dishes":[{"name":"Burger","price":100,"timeToCook":10,"availableQuantity":10},{"name":"Pizza","price":200,"timeToCook":20,"availableQuantity":5}],"orders":[]}
+{"dishes":[{"name":"Burger","price":100,"timeToCook":10,"availableQuantity":10},{"name":"Pizza","price":200,"timeToCook":20,"availableQuantity":5},{"name":"Pasta","price":150,"timeToCook":15,"availableQuantity":10}],"orders":[]}

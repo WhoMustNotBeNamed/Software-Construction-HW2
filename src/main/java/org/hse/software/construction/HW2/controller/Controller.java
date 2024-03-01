@@ -58,7 +58,10 @@ public class Controller {
                     case 2:
                         // Регистрация пользователя
                         user = registration();
-                        account.signUp(user.getUsername(), user.getPassword(), user.getUsername().equals("admin") ? ADMIN : VISITOR);
+
+                        if (!account.signUp(user.getUsername(), user.getPassword(), user.getUsername().equals("admin") ? ADMIN : VISITOR)) {
+                            break;
+                        }
                         handleUser(account.getUser(user.getUsername()), menu, menu.getOrderByID(user.getUsername()), moneyStorage, reviewService);
 
                         repository.saveSnapshot(new Snapshot(menu, account, moneyStorage, reviewService));

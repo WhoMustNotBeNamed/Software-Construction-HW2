@@ -64,11 +64,13 @@ public class Account {
         System.out.println("Logged out");
     }
 
-    public void signUp(String username, String password, UserRole role) {
+    public boolean signUp(String username, String password, UserRole role) {
         if (users.stream().anyMatch(user -> user.getUsername().equals(username))) {
             view.showErrorMessage("Username already exists");
+            return false;
         } else if (username.isEmpty() || password.isEmpty()) {
             view.showErrorMessage("Username and password cannot be empty");
+            return false;
         }
 
         User user = User.builder()
@@ -78,6 +80,7 @@ public class Account {
                 .build();
         addUser(user);
         System.out.println("Signed up as " + user.getUsername());
+        return true;
     }
 
     public User getUser(String username) {
