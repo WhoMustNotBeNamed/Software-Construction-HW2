@@ -6,11 +6,9 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 public class Dish {
     private String name;
     private int price;
     private int timeToCook;
-    //private int preparationDifficulty;
     private int availableQuantity;
 }

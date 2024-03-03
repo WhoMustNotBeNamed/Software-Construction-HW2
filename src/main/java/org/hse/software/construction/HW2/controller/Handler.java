@@ -12,5 +12,5 @@ public abstract class Handler {
         this.next = next;
     }
 
-    public abstract void handle(User user, Menu menu, Order order, MoneyStorage moneyStorage, ReviewService reviewService);
+    public abstract void handle(User user, Menu menu, /* Order order,*/ MoneyStorage moneyStorage, ReviewService reviewService);
 }

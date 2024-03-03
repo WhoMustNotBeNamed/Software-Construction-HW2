@@ -11,7 +11,6 @@ public class MoneyStorage {
     private int nonCash;
     private int totalMoney;
 
-
     public void addCash(int cash) {
         this.cash += cash;
     }

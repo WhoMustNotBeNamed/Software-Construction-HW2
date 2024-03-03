@@ -2,7 +2,6 @@ package org.hse.software.construction.HW2.view;
 
 import org.hse.software.construction.HW2.model.*;
 
-
 public class ConsoleView implements View {
 
     @Override
@@ -14,8 +13,8 @@ public class ConsoleView implements View {
     }
 
     @Override
-    public void showRegistrationSuccess() {
-        System.out.println(ConsoleColors.ANSI_GREEN + "Регистрация прошла успешно" + ConsoleColors.ANSI_RESET);
+    public void showRegistrationSuccess(String name) {
+        System.out.println(ConsoleColors.ANSI_GREEN + "Регистрация пользователя " + name + " прошла успешно" + ConsoleColors.ANSI_RESET);
     }
 
     @Override
@@ -60,7 +59,7 @@ public class ConsoleView implements View {
         System.out.println("2. Удалить блюдо");
         System.out.println("3. Изменить блюдо");
         System.out.println("4. Показать статистику");
-        System.out.println("5. Показать кошелек");
+        System.out.println("5. Показать кассу");
         System.out.println("6. Выйти");
     }
 
@@ -96,6 +95,11 @@ public class ConsoleView implements View {
     }
 
     @Override
+    public void showOrderDone(String id) {
+        System.out.println(ConsoleColors.ANSI_GREEN + "Заказ для " + id + " выполнен" + ConsoleColors.ANSI_RESET);
+    }
+
+    @Override
     public void showUpdateMenu() {
         System.out.println(ConsoleColors.ANSI_BLUE + "Меню:" + ConsoleColors.ANSI_RESET);
         System.out.println("1. Добавить блюдо");
@@ -121,7 +125,7 @@ public class ConsoleView implements View {
 
     @Override
     public void showMoneyStorageMenu(MoneyStorage moneyStorage) {
-        System.out.println(ConsoleColors.ANSI_BLUE + "\nКошелек:" + ConsoleColors.ANSI_RESET);
+        System.out.println(ConsoleColors.ANSI_BLUE + "\nКасса:" + ConsoleColors.ANSI_RESET);
         System.out.println("Наличные: " + moneyStorage.getCash());
         System.out.println("Безналичные: " + moneyStorage.getNonCash());
         System.out.println("Всего: " + moneyStorage.getTotalMoney() + "\n");

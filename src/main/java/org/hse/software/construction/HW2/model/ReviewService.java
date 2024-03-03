@@ -16,11 +16,14 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewService {
-    @JsonSerialize
+    // Список отзывов
     public ArrayList<Review> reviews = new ArrayList<>();
+    // Самое популярное блюдо
     public Dish mostPopularDish;
+    // Средний рейтинг
     public double averageRating;
 
+    // Метод для добавления отзыва
     public void addReview(Review review) {
         if (reviews == null) {
             reviews = new ArrayList<>();
@@ -28,6 +31,7 @@ public class ReviewService {
         reviews.add(review);
     }
 
+    // Метод для удаления отзыва
     public void removeReview(Review review) {
         if (reviews == null) {
             reviews = new ArrayList<>();
@@ -35,6 +39,7 @@ public class ReviewService {
         reviews.remove(review);
     }
 
+    // Метод для получения самого популярного блюда
     public Dish getMostPopularDish() {
         Map<Dish, Integer> dishRatings = new HashMap<>();
         Map<Dish, Integer> dishCounts = new HashMap<>();
@@ -64,6 +69,7 @@ public class ReviewService {
         return mostPopularDish;
     }
 
+    // Метод для получения среднего рейтинга
     public double getAverageRating() {
         if (reviews.isEmpty()) {
             return 0;

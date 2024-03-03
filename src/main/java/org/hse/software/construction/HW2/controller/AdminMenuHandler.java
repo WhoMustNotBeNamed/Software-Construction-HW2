@@ -24,7 +24,7 @@ public class AdminMenuHandler extends Handler {
     }
 
     @Override
-    public void handle(User user, Menu menu, Order order, MoneyStorage moneyStorage, ReviewService reviewService) {
+    public void handle(User user, Menu menu, /* Order order,*/ MoneyStorage moneyStorage, ReviewService reviewService) {
         if (user.getRole() == UserRole.ADMIN) {
             ConsoleView consoleView = new ConsoleView();
 
@@ -63,7 +63,7 @@ public class AdminMenuHandler extends Handler {
                 }
             } while (choice != 6);
         } else if (next != null) {
-            next.handle(user, menu, order, moneyStorage, reviewService);
+            next.handle(user, menu, /*order,*/ moneyStorage, reviewService);
         }
     }
 

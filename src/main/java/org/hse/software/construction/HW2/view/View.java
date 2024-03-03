@@ -8,7 +8,7 @@ import org.hse.software.construction.HW2.model.ReviewService;
 public interface View {
     void showRegistrationForm();
 
-    void showRegistrationSuccess();
+    void showRegistrationSuccess(String name);
 
     void showErrorMessage(String message);
 
@@ -27,6 +27,8 @@ public interface View {
     void showOrderSuccess();
 
     void showOrderCancel();
+
+    public void showOrderDone(String id);
 
     void showUpdateMenu();
 

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 public class Snapshot {
     private Menu menu;
     private Account account;
-    //private Order order;
     private MoneyStorage moneyStorage;
     private ReviewService reviewService;
 }

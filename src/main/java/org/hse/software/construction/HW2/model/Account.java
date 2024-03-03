@@ -3,25 +3,22 @@ package org.hse.software.construction.HW2.model;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import org.hse.software.construction.HW2.view.ConsoleView;
-import org.hse.software.construction.HW2.view.View;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
+
 @Data
 @Builder
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {
-    @Getter @JsonSerialize
+    @JsonSerialize
     public ArrayList<User> users = new ArrayList<>();
 
-    @Builder.Default
-    private static View view = new ConsoleView();
+    private static ConsoleView consoleView = new ConsoleView();
 
     public void addUser(User user) {
         users.add(user);
@@ -52,24 +49,20 @@ public class Account {
     public boolean login(String username, String password) {
         for (User user : users) {
             if (user.getUsername().equals(username) && user.getPassword().equals(hashPassword(password))) {
-                System.out.println("Logged in as " + user.getUsername());
+                consoleView.showRegistrationSuccess(username);
                 return true;
             }
         }
-        view.showErrorMessage("Invalid username or password");
+        consoleView.showErrorMessage("Invalid username or password");
         return false;
-    }
-
-    public void logout() {
-        System.out.println("Logged out");
     }
 
     public boolean signUp(String username, String password, UserRole role) {
         if (users.stream().anyMatch(user -> user.getUsername().equals(username))) {
-            view.showErrorMessage("Username already exists");
+            consoleView.showErrorMessage("Username already exists");
             return false;
         } else if (username.isEmpty() || password.isEmpty()) {
-            view.showErrorMessage("Username and password cannot be empty");
+            consoleView.showErrorMessage("Username and password cannot be empty");
             return false;
         }
 
@@ -79,7 +72,7 @@ public class Account {
                 .role(role)
                 .build();
         addUser(user);
-        System.out.println("Signed up as " + user.getUsername());
+        consoleView.showRegistrationSuccess(username);
         return true;
     }
 

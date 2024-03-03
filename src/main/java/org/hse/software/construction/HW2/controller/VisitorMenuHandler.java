@@ -15,8 +15,11 @@ import java.io.InputStreamReader;
 @NoArgsConstructor
 public class VisitorMenuHandler extends Handler {
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private final ConsoleView consoleView = new ConsoleView();
     private Handler next;
     private Menu menu;
+    private Order order;
+    private User user;
 
     @Override
     public void setNext(Handler handler) {
@@ -24,9 +27,11 @@ public class VisitorMenuHandler extends Handler {
     }
 
     @Override
-    public void handle(User user, Menu menu, Order order, MoneyStorage moneyStorage, ReviewService reviewService) {
+    public void handle(User user, Menu menu, /*Order order,*/ MoneyStorage moneyStorage, ReviewService reviewService) {
         if (user.getRole() == UserRole.VISITOR) {
-            ConsoleView consoleView = new ConsoleView();
+            order = menu.getOrderByID(user.getUsername());
+            this.menu = menu;
+            this.user = user;
 
             int choice = 0;
 
@@ -48,7 +53,8 @@ public class VisitorMenuHandler extends Handler {
                             removeDishFromOrder(menu, order);
                             break;
                         case 4:
-                            makeOrder(order);
+                            makeOrder(menu, order);
+                            menu.updateOrder(order);
                             break;
                         case 5:
                             cancelOrder(order);
@@ -62,12 +68,12 @@ public class VisitorMenuHandler extends Handler {
                             consoleView.showErrorMessage("Некорректный ввод. Введите число от 1 до 7");
                     }
                 } catch (Exception e) {
-                    consoleView.showErrorMessage("Некорректный ввод. Введите число от 1 до 7");
+                    consoleView.showErrorMessage("Некорректный ввод. Введите число от 1 до 7" + e.getMessage());
                 }
             } while (choice != 7);
 
         } else if (next != null) {
-            next.handle(user, menu, order, moneyStorage, reviewService);
+            next.handle(user, menu, /*order,*/ moneyStorage, reviewService);
         }
     }
 
@@ -76,15 +82,18 @@ public class VisitorMenuHandler extends Handler {
         String name = reader.readLine();
 
         try {
+            if (menu.getDishByName(name).getAvailableQuantity() == 0) {
+                consoleView.showErrorMessage("Блюдо закончилось");
+                return;
+            }
             order.addDish(menu.getDishByName(name));
+            menu.getDishByName(name).setAvailableQuantity(menu.getDishByName(name).getAvailableQuantity() - 1);
         } catch (Exception e) {
-            System.out.println("Блюда с таким названием не существует");
+            consoleView.showErrorMessage("Блюда с таким названием не существует");
         }
     }
 
     public void showOrder(Order order) {
-        ConsoleView consoleView = new ConsoleView();
-
         if (order.getDishes() == null || order.getDishes().isEmpty()) {
             consoleView.showErrorMessage("Заказ пуст");
             return;
@@ -101,32 +110,36 @@ public class VisitorMenuHandler extends Handler {
         try {
             order.removeDish(menu.getDishByName(name));
         } catch (Exception e) {
-            System.out.println("Блюда с таким названием не существует");
+            consoleView.showErrorMessage("Блюда с таким названием не существует");
         }
     }
 
-    public void makeOrder(Order order) {
-        ConsoleView consoleView = new ConsoleView();
+    public void makeOrder(Menu menu, Order order) throws IOException {
         if (order.getDishes() == null || order.getDishes().isEmpty()) {
             consoleView.showErrorMessage("Заказ пуст");
             return;
         }
-        //order.updateStatus(OrderStatus.ACCEPTED);
-        order.updateStatus(OrderStatus.DONE);
+        menu.updateOrder(order);
+//        synchronized (menu.getOrders()) {
+            order.updateStatus(OrderStatus.ACCEPTED);
+            //order.unlockOrder();
+//        }
+        consoleView.showOrderSuccess();
     }
 
-    public void cancelOrder(Order order) {
-        if (order.getStatus() == OrderStatus.DONE || order.getStatus() == OrderStatus.IN_PROGRESS){
-            ConsoleView consoleView = new ConsoleView();
+    public void cancelOrder(Order order) throws IOException {
+        if (order.getStatus() == OrderStatus.DONE || order.getStatus() == OrderStatus.IN_PROGRESS) {
             consoleView.showErrorMessage("Заказ нельзя отменить, так как он уже готовится или готов");
             return;
         }
-        order.setDishes(null);
+//        synchronized (menu.getOrders()) {
+            order.setDishes(null);
+           // order.unlockOrder();
+//        }
+        consoleView.showOrderCancel();
     }
 
-    public void payOrder(Order order, MoneyStorage moneyStorage, ReviewService reviewService) {
-        ConsoleView consoleView = new ConsoleView();
-
+    public void payOrder(Order order, MoneyStorage moneyStorage, ReviewService reviewService) throws IOException {
         if (order.getStatus() != OrderStatus.DONE) {
             consoleView.showErrorMessage("Заказ не готов");
             return;
@@ -140,8 +153,8 @@ public class VisitorMenuHandler extends Handler {
         do {
             consoleView.showPaymentMenu();
 
-            try {
-                choice = Integer.parseInt(reader.readLine());
+            choice = Integer.parseInt(reader.readLine());
+//            synchronized (menu.getOrders()) {
                 switch (choice) {
                     case 1:
                         moneyStorage.addCash(order.getTotalPrice());
@@ -160,16 +173,14 @@ public class VisitorMenuHandler extends Handler {
                     default:
                         consoleView.showErrorMessage("Некорректный ввод. Введите число от 1 до 3");
                 }
-            } catch (Exception e) {
-                consoleView.showErrorMessage("Некорректный ввод. Введите число от 1 до 3" + e);
-            }
+               // order.unlockOrder();
+//            }
         } while (choice != 3 && order.getStatus() != OrderStatus.PAYED);
 
         order.setDishes(null);
     }
 
     public void addReview(ReviewService reviewService, Order order) throws IOException {
-        ConsoleView consoleView = new ConsoleView();
         int rating = 0;
 
         do {
@@ -190,7 +201,5 @@ public class VisitorMenuHandler extends Handler {
                 .author(clonedOrder.getId())
                 .order(clonedOrder)
                 .build());
-
-
     }
 }

@@ -34,6 +34,10 @@ public class Controller {
         ReviewService reviewService = snapshot.getReviewService();
         //ReviewService reviewService = new ReviewService();
 
+        // Инициализация кухни
+        Kitchen kitchen = new Kitchen();
+        kitchen.startKitchen(menu);
+
         int choice = 0;
 
         do {
@@ -51,7 +55,7 @@ public class Controller {
                         if(!account.login(user.getUsername(), user.getPassword())) {
                             break;
                         }
-                        handleUser(account.getUser(user.getUsername()), menu, menu.getOrderByID(user.getUsername()), moneyStorage, reviewService);
+                        handleUser(account.getUser(user.getUsername()), menu, /*menu.getOrderByID(user.getUsername()),*/ moneyStorage, reviewService);
 
                         repository.saveSnapshot(new Snapshot(menu, account, moneyStorage, reviewService));
                         break;
@@ -62,7 +66,7 @@ public class Controller {
                         if (!account.signUp(user.getUsername(), user.getPassword(), user.getUsername().equals("admin") ? ADMIN : VISITOR)) {
                             break;
                         }
-                        handleUser(account.getUser(user.getUsername()), menu, menu.getOrderByID(user.getUsername()), moneyStorage, reviewService);
+                        handleUser(account.getUser(user.getUsername()), menu, /*menu.getOrderByID(user.getUsername()),*/ moneyStorage, reviewService);
 
                         repository.saveSnapshot(new Snapshot(menu, account, moneyStorage, reviewService));
                         break;
@@ -79,6 +83,8 @@ public class Controller {
                 throw new RuntimeException(e);
             }
         } while (choice != 3);
+
+        kitchen.stopKitchen();
     }
 
     // Метод регистрации пользователя
@@ -95,7 +101,7 @@ public class Controller {
     }
 
     // Метод обработки пользователя
-    private void handleUser(User user, Menu menu, Order order, MoneyStorage moneyStorage, ReviewService reviewService) {
-        adminMenuHandler.handle(user, menu, order, moneyStorage, reviewService);
+    private void handleUser(User user, Menu menu, /*Order order,*/ MoneyStorage moneyStorage, ReviewService reviewService) {
+        adminMenuHandler.handle(user, menu, /*order,*/ moneyStorage, reviewService);
     }
 }
