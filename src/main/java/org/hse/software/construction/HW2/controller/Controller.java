@@ -12,9 +12,9 @@ import static org.hse.software.construction.HW2.model.UserRole.ADMIN;
 import static org.hse.software.construction.HW2.model.UserRole.VISITOR;
 
 public class Controller {
-    private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    private Handler adminMenuHandler = new AdminMenuHandler();
-    private Handler visitorMenuHandler = new VisitorMenuHandler();
+    private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private final Handler adminMenuHandler = new AdminMenuHandler();
+    private final Handler visitorMenuHandler = new VisitorMenuHandler();
 
     public Controller() {
         // Установка цепочки обработчиков
@@ -24,15 +24,13 @@ public class Controller {
         ConsoleView view = new ConsoleView();
         Repository repository = new Repository();
         Snapshot snapshot = repository.restoreSnapshot();
-        User user = null;
+        User user;
 
         // Восстановление состояния системы
         Menu menu = snapshot.getMenu();
         Account account = snapshot.getAccount();
-        //Order order = snapshot.getOrder();
         MoneyStorage moneyStorage = snapshot.getMoneyStorage();
         ReviewService reviewService = snapshot.getReviewService();
-        //ReviewService reviewService = new ReviewService();
 
         // Инициализация кухни
         Kitchen kitchen = new Kitchen();
@@ -50,13 +48,14 @@ public class Controller {
 
                 switch (choice) {
                     case 1:
-                        // Регистрация и вход пользователя в систему
+                        // Вход пользователя в систему
                         user = registration();
                         if(!account.login(user.getUsername(), user.getPassword())) {
                             break;
                         }
-                        handleUser(account.getUser(user.getUsername()), menu, /*menu.getOrderByID(user.getUsername()),*/ moneyStorage, reviewService);
+                        handleUser(account.getUser(user.getUsername()), menu, moneyStorage, reviewService);
 
+                        // Сохранение состояния
                         repository.saveSnapshot(new Snapshot(menu, account, moneyStorage, reviewService));
                         break;
                     case 2:
@@ -66,17 +65,17 @@ public class Controller {
                         if (!account.signUp(user.getUsername(), user.getPassword(), user.getUsername().equals("admin") ? ADMIN : VISITOR)) {
                             break;
                         }
-                        handleUser(account.getUser(user.getUsername()), menu, /*menu.getOrderByID(user.getUsername()),*/ moneyStorage, reviewService);
+                        handleUser(account.getUser(user.getUsername()), menu, moneyStorage, reviewService);
 
+                        // Сохранение состояния
                         repository.saveSnapshot(new Snapshot(menu, account, moneyStorage, reviewService));
                         break;
-                    case 3:
+                    case 3: // Выход
                         break;
                     default:
                         view.showErrorMessage("Некорректный ввод. Введите число от 1 до 3");
                         break;
                 }
-
             } catch (NumberFormatException e) {
                 view.showErrorMessage("Некорректный ввод. Введите число от 1 до 3");
             } catch (IOException e) {
@@ -84,6 +83,7 @@ public class Controller {
             }
         } while (choice != 3);
 
+        // Остановка кухни
         kitchen.stopKitchen();
     }
 
@@ -101,7 +101,7 @@ public class Controller {
     }
 
     // Метод обработки пользователя
-    private void handleUser(User user, Menu menu, /*Order order,*/ MoneyStorage moneyStorage, ReviewService reviewService) {
-        adminMenuHandler.handle(user, menu, /*order,*/ moneyStorage, reviewService);
+    private void handleUser(User user, Menu menu, MoneyStorage moneyStorage, ReviewService reviewService) {
+        adminMenuHandler.handle(user, menu, moneyStorage, reviewService);
     }
 }

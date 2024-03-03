@@ -2,9 +2,7 @@ package org.hse.software.construction.HW2.controller;
 
 import org.hse.software.construction.HW2.model.*;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
+// Абстрактный класс для обработчиков для реализации паттерна "Цепочка обязанностей"
 public abstract class Handler {
     protected Handler next;
 

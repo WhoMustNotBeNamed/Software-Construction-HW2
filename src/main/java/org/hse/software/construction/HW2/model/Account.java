@@ -17,17 +17,19 @@ import java.util.ArrayList;
 public class Account {
     @JsonSerialize
     public ArrayList<User> users = new ArrayList<>();
-
     private static ConsoleView consoleView = new ConsoleView();
 
+    // Метод добавления пользователя
     public void addUser(User user) {
         users.add(user);
     }
 
+    // Метод удаления пользователя
     public void removeUser(User user) {
         users.remove(user);
     }
 
+    // Метод для хэширования пароля
     private static String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -46,6 +48,7 @@ public class Account {
         }
     }
 
+    // Метод для входа
     public boolean login(String username, String password) {
         for (User user : users) {
             if (user.getUsername().equals(username) && user.getPassword().equals(hashPassword(password))) {
@@ -57,6 +60,7 @@ public class Account {
         return false;
     }
 
+    // Метод для регистрации
     public boolean signUp(String username, String password, UserRole role) {
         if (users.stream().anyMatch(user -> user.getUsername().equals(username))) {
             consoleView.showErrorMessage("Username already exists");
@@ -76,6 +80,7 @@ public class Account {
         return true;
     }
 
+    // Метод для получения пользователя
     public User getUser(String username) {
         for (User user : users) {
             if (user.getUsername().equals(username)) {

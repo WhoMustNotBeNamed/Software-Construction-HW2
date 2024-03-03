@@ -7,6 +7,8 @@ import org.hse.software.construction.HW2.model.Account;
 @Data
 public class AccountRepository {
     private ObjectMapper objectMapper = new ObjectMapper();
+
+    // Метод для сохранения аккаунта
     public void saveAccount(Account account, String path) {
         try {
             if (account == null) {
@@ -19,6 +21,7 @@ public class AccountRepository {
 
     }
 
+    // Метод для восстановления аккаунта
     public Account restoreUser(String path) {
         try {
             return objectMapper.readValue(new java.io.File(path), Account.class);

@@ -7,6 +7,8 @@ import org.hse.software.construction.HW2.model.MoneyStorage;
 @Data
 public class MoneyStorageRepository {
     private ObjectMapper objectMapper = new ObjectMapper();
+
+    // Метод для сохранения кассы
     public void saveCashRegister(MoneyStorage moneyStorage, String path) {
         try {
             if (moneyStorage == null) {
@@ -18,6 +20,7 @@ public class MoneyStorageRepository {
         }
     }
 
+    // Метод для восстановления кассы
     public MoneyStorage restoreCashRegister(String path) {
         try {
             return objectMapper.readValue(new java.io.File(path), MoneyStorage.class);

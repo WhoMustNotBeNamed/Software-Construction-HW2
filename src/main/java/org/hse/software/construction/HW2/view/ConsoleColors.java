@@ -1,5 +1,6 @@
 package org.hse.software.construction.HW2.view;
 
+// Класс для цветов консоли
 public class ConsoleColors {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLUE = "\u001B[34m";

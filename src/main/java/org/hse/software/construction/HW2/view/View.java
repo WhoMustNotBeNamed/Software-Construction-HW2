@@ -6,35 +6,48 @@ import org.hse.software.construction.HW2.model.Order;
 import org.hse.software.construction.HW2.model.ReviewService;
 
 public interface View {
+    // Показать форму входа
     void showRegistrationForm();
 
+    // Показать сообщение об успешной регистрации
     void showRegistrationSuccess(String name);
 
+    // Показать сообщение об ошибке
     void showErrorMessage(String message);
 
-    void showMenu();
-
+    // Показать пункты меню
     void showMenuItems(Menu menu);
 
+    // Показать пункты меню администратора
     void showMenuItemsAdmin(Menu menu);
 
-    public void showAdminMenu();
+    // Показать меню действий администратора
+    void showAdminMenu();
 
-    public void showVisitorMenu();
+    // Показать меню действий посетителя
+    void showVisitorMenu();
 
+    // Показать пункты заказа
     void showOrderItems(Order order);
 
+    // Показать сообщение об успешном заказе
     void showOrderSuccess();
 
+    // Показать сообщение об отмене заказа
     void showOrderCancel();
 
-    public void showOrderDone(String id);
+    // Показать сообщение о выполненном заказа
+    void showOrderDone(String id);
 
-    void showUpdateMenu();
+    // Показать сообщение о оплате заказа
+    void showOrderPaid(String id);
 
+    // Показать меню оплаты
     void showPaymentMenu();
 
+    // Показать статистику
     void showStatistics(ReviewService reviewService);
 
+    // Показать меню кассы
     void showMoneyStorageMenu(MoneyStorage moneyStorage);
 }

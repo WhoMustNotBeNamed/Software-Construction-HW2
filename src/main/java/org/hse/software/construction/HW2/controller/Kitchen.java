@@ -5,6 +5,7 @@ import org.hse.software.construction.HW2.model.Order;
 import org.hse.software.construction.HW2.model.OrderStatus;
 import org.hse.software.construction.HW2.view.ConsoleView;
 
+// Класс для запуска кухни, который запускает потоки для 3х поваров
 public class Kitchen {
     private static volatile boolean running = true;
     private static Thread chef1;
@@ -13,12 +14,14 @@ public class Kitchen {
 
     private final ConsoleView consoleView = new ConsoleView();
 
+    // Запуск кухни
     public void startKitchen(Menu menu) {
         startChef1(menu);
         startChef2(menu);
         startChef3(menu);
     }
 
+    // Остановка кухни
     public void stopKitchen() {
         running = false;
         try {
@@ -30,6 +33,7 @@ public class Kitchen {
         }
     }
 
+    // Запуск потока для повара 1
     private void startChef1(Menu menu) {
         Runnable runnableTask = () -> {
             while (running) {
@@ -41,11 +45,12 @@ public class Kitchen {
         chef1.start();
     }
 
+    // Запуск потока для повара 2
     private void startChef2(Menu menu) {
         Runnable runnableTask = () -> {
             while (running) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(1000); // Задержка, чтобы повар два вступил в работу после повара 1 и не пересекались
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -58,11 +63,12 @@ public class Kitchen {
         chef2.start();
     }
 
+    // Запуск потока для повара 3
     private void startChef3(Menu menu) {
         Runnable runnableTask = () -> {
             while (running) {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(2000); // Задержка, чтобы повар три вступил в работу после повара 2 и не пересекались
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -75,8 +81,8 @@ public class Kitchen {
         chef3.start();
     }
 
+    // Проверка заказов и приготовление блюд
     private void checkAndCokking(Menu menu) {
-        //synchronized (menu.getOrders()) {
             for (Order order : menu.getOrders()) {
                 if (order.getStatus() == OrderStatus.ACCEPTED) {
                     order.status = OrderStatus.IN_PROGRESS;
@@ -87,10 +93,7 @@ public class Kitchen {
                     }
                     order.status = OrderStatus.DONE;
                     consoleView.showOrderDone(order.id);
-
-                   // order.unlockOrder();
                 }
             }
-        //}
     }
 }
