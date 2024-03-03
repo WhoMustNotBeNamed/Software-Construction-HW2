@@ -81,4 +81,5 @@
 ![img_4.png](screenshots/img5.png)
 ![img_5.png](screenshots/img6.png)
 ![img_6.png](screenshots/img7.png)
+
 и т.д.
