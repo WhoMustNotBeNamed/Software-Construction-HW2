@@ -1,1 +1,1 @@
-{"dishes":[{"name":"Pizza","price":200,"timeToCook":20,"availableQuantity":10},{"name":"Pasta","price":150,"timeToCook":15,"availableQuantity":9},{"name":"Lasagna","price":300,"timeToCook":30,"availableQuantity":9}]}
+{"dishes":[{"name":"Pizza","price":200,"timeToCook":20,"availableQuantity":8},{"name":"Pasta","price":150,"timeToCook":15,"availableQuantity":9},{"name":"Lasagna","price":300,"timeToCook":30,"availableQuantity":10}]}
